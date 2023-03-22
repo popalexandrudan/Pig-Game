@@ -11,10 +11,8 @@ let changeImg = randNumber => {
 
 const btnRollDice = document.querySelector('.btn.btn--roll');
 
-let score = 0;
-let player1 = 68;
-let player2 = 69;
-let currentPlayer = player1;
+let player1 = 0;
+let player2 = 0;
 let toggle = 1;
 
 const buttonToggle = arg => {
@@ -25,28 +23,29 @@ const buttonToggle = arg => {
 btnRollDice.addEventListener('click', () => {
   generateRandomNumber();
   changeImg(randNumber);
-  if (currentPlayer === player1) {
+  if (toggle % 2 == 1) {
     if (randNumber !== 1) {
-      score = score + randNumber;
-      document.getElementById('current--0').textContent = score;
+      player1 = player1 + randNumber;
+      document.getElementById('current--0').textContent = player1;
     } else {
-      score = 0;
-      document.getElementById('current--0').textContent = score;
-      document.getElementById('score--0').textContent = score;
+      player1 = 0;
+      document.getElementById('current--0').textContent = player1;
+      document.getElementById('score--0').textContent = player1;
       document.getElementById('name--0').textContent = `💀PLAYER 1 💀`;
       buttonToggle(true);
+      toggle = 0;
     }
-  } else if (currentPlayer === 69) {
+  } else if (toggle % 2 == 0) {
     if (randNumber !== 1) {
-      score = score + randNumber;
-      document.getElementById('current--1').textContent = score;
+      player2 = player2 + randNumber;
+      document.getElementById('current--1').textContent = player2;
     } else {
-      score = 0;
-      console.log('you rolled 1!!!!!!');
-      document.getElementById('current--1').textContent = score;
-      document.getElementById('score--1').textContent = score;
+      player2 = 0;
+      document.getElementById('current--1').textContent = player2;
+      document.getElementById('score--1').textContent = player2;
       document.getElementById('name--1').textContent = `💀PLAYER 2 💀`;
       buttonToggle(true);
+      toggle = 0;
     }
   }
 });
@@ -55,22 +54,22 @@ const btnHold = document.querySelector('.btn.btn--hold');
 
 btnHold.addEventListener('click', () => {
   toggle++;
-  if (toggle % 2 === 0) {
+  console.log(toggle);
+  if (toggle % 2 == 0) {
     document.querySelector('.player--0').classList.remove('player--active');
     document.querySelector('.player--1').classList.add('player--active');
-    currentPlayer = player2;
     document.getElementById('score--0').textContent =
-      Number(document.getElementById('score--0').textContent) + score;
+      Number(document.getElementById('score--0').textContent) + player1;
   } else {
     document.querySelector('.player--0').classList.add('player--active');
     document.querySelector('.player--1').classList.remove('player--active');
-    currentPlayer = player1;
     document.getElementById('score--1').textContent =
-      Number(document.getElementById('score--1').textContent) + score;
+      Number(document.getElementById('score--1').textContent) + player2;
   }
   document.getElementById('current--0').textContent = 0;
   document.getElementById('current--1').textContent = 0;
-  score = 0;
+  player1 = 0;
+  player2 = 0;
 });
 
 const btnNewGame = document.querySelector('.btn.btn--new');
@@ -78,7 +77,8 @@ const btnNewGame = document.querySelector('.btn.btn--new');
 const resetGame = () => {
   buttonToggle(false);
   buttonToggle(false);
-  score = 0;
+  player1 = 0;
+  player2 = 0;
   document.getElementById('name--0').textContent = `PLAYER 1`;
   document.getElementById('name--1').textContent = `PLAYER 2`;
   document.getElementById('score--0').textContent = 0;
